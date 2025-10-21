@@ -13,9 +13,6 @@ import { useDestinations } from './hooks/useDestinations';
 import type { DestinationWithNotes, Category, Theme } from './types';
 
 function App() {
-  // Check if environment variables are configured
-  const hasEnvVars = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
-
   const {
     destinations,
     loading,
