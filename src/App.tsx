@@ -13,6 +13,9 @@ import { useDestinations } from './hooks/useDestinations';
 import type { DestinationWithNotes, Category, Theme } from './types';
 
 function App() {
+  // Check if environment variables are configured
+  const hasEnvVars = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
+
   const {
     destinations,
     loading,
@@ -75,6 +78,43 @@ function App() {
       : theme === 'sunset'
       ? 'bg-gradient-to-br from-[#ffedd5] via-[#fce7f3] to-[#ede9fe]'
       : 'bg-gradient-to-br from-[#e0f2fe] via-[#e9d5ff] to-[#fde2e4]';
+
+  // Show error if environment variables are missing
+  if (!hasEnvVars) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4">
+        <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
+          <div className="text-center">
+            <div className="text-6xl mb-4">⚠️</div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Configuration Required</h1>
+            <p className="text-lg text-gray-700 mb-6">
+              This application requires Supabase environment variables to function properly.
+            </p>
+            <div className="bg-gray-50 rounded-lg p-6 text-left mb-6">
+              <h2 className="font-semibold text-gray-900 mb-3">Required Environment Variables:</h2>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li><code className="bg-gray-200 px-2 py-1 rounded">VITE_SUPABASE_URL</code></li>
+                <li><code className="bg-gray-200 px-2 py-1 rounded">VITE_SUPABASE_ANON_KEY</code></li>
+              </ul>
+            </div>
+            <div className="bg-blue-50 rounded-lg p-6 text-left">
+              <h2 className="font-semibold text-blue-900 mb-3">How to fix this in Vercel:</h2>
+              <ol className="list-decimal list-inside space-y-2 text-sm text-blue-800">
+                <li>Go to your Vercel project settings</li>
+                <li>Navigate to <strong>Settings → Environment Variables</strong></li>
+                <li>Add <code className="bg-blue-100 px-2 py-1 rounded">VITE_SUPABASE_URL</code> with your Supabase project URL</li>
+                <li>Add <code className="bg-blue-100 px-2 py-1 rounded">VITE_SUPABASE_ANON_KEY</code> with your Supabase anon key</li>
+                <li>Redeploy your application</li>
+              </ol>
+              <p className="mt-4 text-sm text-blue-700">
+                Get your Supabase credentials from: <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer" className="underline">Supabase Dashboard</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
