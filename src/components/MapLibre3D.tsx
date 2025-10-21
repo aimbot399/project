@@ -13,15 +13,12 @@ type MapLibre3DProps = {
 };
 
 // Fallback public style (no API key) with richer labels
-// MapLibre demo style: reliable and works without CORS issues
-const FALLBACK_STYLE = 'https://demotiles.maplibre.org/style.json';
+// OpenStreetMap style with good city labeling
+const FALLBACK_STYLE = 'https://tiles.openfreemap.org/styles/osm-bright/style.json';
 
-// Prefer MapTiler styles when a valid key is provided via env
-// Set VITE_MAPTILER_KEY in your environment to enable MapTiler styles in production
-const MAPTILER_KEY = (import.meta as any).env?.VITE_MAPTILER_KEY as string | undefined;
-const MAP_STYLE = MAPTILER_KEY
-  ? `https://api.maptiler.com/maps/openstreetmap/style.json?key=${MAPTILER_KEY}`
-  : FALLBACK_STYLE;
+// Use MapTiler with your API key for Google Maps-level city labeling
+const MAPTILER_KEY = 'q3jQtBLMJWCpVF3WeUiB';
+const MAP_STYLE = `https://api.maptiler.com/maps/openstreetmap/style.json?key=${MAPTILER_KEY}`;
 
 export function MapLibre3D({ destinations, onSelectDestination, selectedDestination, theme, onAddPin }: MapLibre3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
