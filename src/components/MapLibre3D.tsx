@@ -13,8 +13,8 @@ type MapLibre3DProps = {
 };
 
 // Fallback public style (no API key) with richer labels
-// CARTO Positron GL: good city/state labeling
-const FALLBACK_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
+// OpenStreetMap-based style with good city labeling
+const FALLBACK_STYLE = 'https://tiles.openfreemap.org/styles/osm-bright/style.json';
 
 // Prefer MapTiler styles when a valid key is provided via env
 // Set VITE_MAPTILER_KEY in your environment to enable MapTiler styles in production
