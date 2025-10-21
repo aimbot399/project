@@ -13,8 +13,8 @@ type MapLibre3DProps = {
 };
 
 // Fallback public style (no API key) with richer labels
-// Protomaps Basic: reliable free style with good city labeling
-const FALLBACK_STYLE = 'https://api.protomaps.com/styles/v2.json';
+// MapLibre demo style: reliable and works without CORS issues
+const FALLBACK_STYLE = 'https://demotiles.maplibre.org/style.json';
 
 // Prefer MapTiler styles when a valid key is provided via env
 // Set VITE_MAPTILER_KEY in your environment to enable MapTiler styles in production
