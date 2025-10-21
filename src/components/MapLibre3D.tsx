@@ -12,15 +12,16 @@ type MapLibre3DProps = {
   onAddPin?: (lat: number, lng: number) => void;
 };
 
-// Fallback public demo style (no API key required)
-const DEMO_STYLE = 'https://demotiles.maplibre.org/style.json';
+// Fallback public style (no API key) with richer labels
+// CARTO Positron GL: good city/state labeling
+const FALLBACK_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
 // Prefer MapTiler styles when a valid key is provided via env
 // Set VITE_MAPTILER_KEY in your environment to enable MapTiler styles in production
 const MAPTILER_KEY = (import.meta as any).env?.VITE_MAPTILER_KEY as string | undefined;
 const MAP_STYLE = MAPTILER_KEY
   ? `https://api.maptiler.com/maps/openstreetmap/style.json?key=${MAPTILER_KEY}`
-  : DEMO_STYLE;
+  : FALLBACK_STYLE;
 
 export function MapLibre3D({ destinations, onSelectDestination, selectedDestination, theme, onAddPin }: MapLibre3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
