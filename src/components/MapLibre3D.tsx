@@ -12,14 +12,15 @@ type MapLibre3DProps = {
   onAddPin?: (lat: number, lng: number) => void;
 };
 
-// Use MapTiler OpenStreetMap style which has detailed city labels like Google Maps
-const MAPTILER_OSM_STYLE = 'https://api.maptiler.com/maps/openstreetmap/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL';
-
-// Alternative: use a different free style with better coverage
-const OPENMAPTILES_STYLE = 'https://api.maptiler.com/maps/basic-v2/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL';
-
-// Fallback to demo style
+// Fallback public demo style (no API key required)
 const DEMO_STYLE = 'https://demotiles.maplibre.org/style.json';
+
+// Prefer MapTiler styles when a valid key is provided via env
+// Set VITE_MAPTILER_KEY in your environment to enable MapTiler styles in production
+const MAPTILER_KEY = (import.meta as any).env?.VITE_MAPTILER_KEY as string | undefined;
+const MAP_STYLE = MAPTILER_KEY
+  ? `https://api.maptiler.com/maps/openstreetmap/style.json?key=${MAPTILER_KEY}`
+  : DEMO_STYLE;
 
 export function MapLibre3D({ destinations, onSelectDestination, selectedDestination, theme, onAddPin }: MapLibre3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,7 +35,7 @@ export function MapLibre3D({ destinations, onSelectDestination, selectedDestinat
 
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: MAPTILER_OSM_STYLE,
+      style: MAP_STYLE,
       center: [0, 20],
       zoom: 3,
       pitch: 60,
@@ -222,7 +223,7 @@ export function MapLibre3D({ destinations, onSelectDestination, selectedDestinat
   // Theme switch
   useEffect(() => {
     if (!mapRef.current) return;
-    mapRef.current.setStyle(MAPTILER_OSM_STYLE);
+    mapRef.current.setStyle(MAP_STYLE);
     mapRef.current.once('styledata', () => {
       try { (mapRef.current as any).setProjection && (mapRef.current as any).setProjection('globe'); } catch {}
       try { 
